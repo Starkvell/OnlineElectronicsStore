@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS category_relations (
 );
 
 CREATE TABLE IF NOT EXISTS products_categories(
-	product_id INT REFERENCES products(product_id),
-	category_id INT REFERENCES categories(category_id),
+	product_id INT REFERENCES products(product_id) ON DELETE CASCADE,
+	category_id INT REFERENCES categories(category_id) ON DELETE CASCADE,
 	PRIMARY KEY (product_id, category_id)
 );
 
@@ -36,15 +36,15 @@ CREATE TABLE IF NOT EXISTS users(
 
 CREATE TABLE IF NOT EXISTS carts (
     cart_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id) NOT NULL UNIQUE,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE NOT NULL UNIQUE,
 	quantity INT NOT NULL,
 	total_cost DECIMAL(10,2) NOT NULL
 );
 
 
-CREATE TABLE IF NOT EXISTS cart_products(
-	cart_id INT REFERENCES carts(cart_id),
-	product_id INT REFERENCES products(product_id),
+CREATE TABLE IF NOT EXISTS carts_products(
+	cart_id INT REFERENCES carts(cart_id) ON DELETE CASCADE NOT NULL ,
+	product_id INT REFERENCES products(product_id) ON DELETE CASCADE NOT NULL ,
 	PRIMARY KEY(cart_id, product_id)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS orders (
 
 CREATE TABLE IF NOT EXISTS order_details (
     order_detail_id SERIAL PRIMARY KEY,
-    order_id INT REFERENCES orders(order_id) NOT NULL,
+    order_id INT REFERENCES orders(order_id) ON DELETE CASCADE NOT NULL ,
     product_id INT REFERENCES products(product_id) NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL
