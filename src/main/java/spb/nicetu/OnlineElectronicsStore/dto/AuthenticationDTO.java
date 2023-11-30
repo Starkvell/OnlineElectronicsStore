@@ -1,12 +1,12 @@
 package spb.nicetu.OnlineElectronicsStore.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthenticationDTO {
 
     @Email(message = "Email должен быть действителен")
