@@ -37,4 +37,9 @@ public class Cart {
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private List<Product> products;
+
+    public Cart(int quantity, BigDecimal totalCost) {
+        this.quantity = quantity;
+        this.totalCost = totalCost;
+    }
 }

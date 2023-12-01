@@ -43,4 +43,14 @@ public class Category {
     @ManyToMany(mappedBy = "parentCategories")
     private Set<Category> childCategories = new HashSet<>();
 
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category(String name, Set<Category> parentCategories, Set<Category> childCategories) {
+        this.name = name;
+        this.parentCategories = parentCategories;
+        this.childCategories = childCategories;
+    }
 }

@@ -51,4 +51,13 @@ public class Product {
     @JsonIgnore
     @ManyToMany(mappedBy = "products")
     private List<Cart> carts;
+
+    public Product(String title, String description, String imageUrl, int stockQuantity, BigDecimal basePrice, BigDecimal discountPrice) {
+        this.title = title;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.stockQuantity = stockQuantity;
+        this.basePrice = basePrice;
+        this.discountPrice = discountPrice;
+    }
 }

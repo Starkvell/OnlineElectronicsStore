@@ -24,12 +24,15 @@ public class ProductDTO {
 
     private String imageUrl;
 
+    @NotNull
     @Min(value = 0, message = "Количество товара на складе должно быть больше или равна 0")
     private int stockQuantity;
 
+    @NotNull
     @Min(value = 0, message = "Цена должна быть больше или равна 0")
     private BigDecimal basePrice;
 
+    @Min(value = 0)
     private BigDecimal discountPrice;
 
     @NotEmpty(message = "Категории не должны быть пустыми")

@@ -32,4 +32,11 @@ public class OrderDetails {
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
+
+    public OrderDetails(int quantity, BigDecimal price, Order order, Product product) {
+        this.quantity = quantity;
+        this.price = price;
+        this.order = order;
+        this.product = product;
+    }
 }

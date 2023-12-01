@@ -33,4 +33,10 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User owner;
 
+    public Order(Date createdAt, BigDecimal totalAmount, String address, User owner) {
+        this.createdAt = createdAt;
+        this.totalAmount = totalAmount;
+        this.address = address;
+        this.owner = owner;
+    }
 }
