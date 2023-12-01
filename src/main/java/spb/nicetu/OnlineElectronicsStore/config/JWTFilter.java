@@ -7,10 +7,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import spb.nicetu.OnlineElectronicsStore.security.JWTUtil;
+import spb.nicetu.OnlineElectronicsStore.util.UserNotFoundException;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -47,10 +50,13 @@ public class JWTFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
 
-            } catch (JWTVerificationException e) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-                        "Invalid JWT token");
+            } catch (JWTVerificationException e) {  // Если токен неправильный
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Invalid JWT token. Details: " + e.getMessage());
                 return;
+            } catch (UsernameNotFoundException e){ // Если пользователь не найден
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("User not found: " + e.getMessage());
             }
         }
 
