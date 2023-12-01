@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.repositories.ProductsRepository;
+import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,6 +21,10 @@ public class ProductService {
 
     public List<Product> findAll(){
         return productsRepository.findAll();
+    }
+
+    public Product findOne(Integer id){
+        return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
 }
