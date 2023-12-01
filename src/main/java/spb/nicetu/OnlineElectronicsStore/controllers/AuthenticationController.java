@@ -37,24 +37,23 @@ public class AuthenticationController {
     }
 
     @PostMapping("/registration")
-    public Map<String, String> performRegistration(@RequestBody @Valid UserDTO userDTO,
+    public ResponseEntity<?> performRegistration(@RequestBody @Valid UserDTO userDTO,
                                                    BindingResult bindingResult) {
-        User user = userMapper.convertToEntity(userDTO);
-
-        //TODO: userValidator.validate(user, bindingResults);
-
         if (bindingResult.hasErrors()) {
-            throw new RuntimeException(); // TODO: exception
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors());
         }
 
+        User user = userMapper.convertToEntity(userDTO);
         authenticationService.register(user);
 
         String token = jwtUtil.generateToken(user.getEmail());
-        return Collections.singletonMap("jwt-token", token);
+        Map<String, String> response = Collections.singletonMap("jwt-token", token);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
+    public ResponseEntity<?> performLogin(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
         UsernamePasswordAuthenticationToken authInputToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getEmail(), authenticationDTO.getPassword());
 
