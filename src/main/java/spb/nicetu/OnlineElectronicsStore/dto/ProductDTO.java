@@ -35,8 +35,6 @@ public class ProductDTO {
     @Min(value = 0)
     private BigDecimal discountPrice;
 
-    @NotEmpty(message = "Категории не должны быть пустыми")
-    private List<Category> categories;
 }
 
 
