@@ -17,8 +17,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findByEmail(String email){
+    public User findByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElseThrow(UserNotFoundException::new);
+    }
+
+    public User findOne(int id) {
+        Optional<User> foundUser = userRepository.findById(id);
+        return foundUser.orElseThrow(UserNotFoundException::new);
     }
 }
