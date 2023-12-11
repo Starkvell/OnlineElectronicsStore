@@ -36,6 +36,16 @@ public class AuthenticationController {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Регистрирует нового пользователя в системе и возвращает JWT-токен для аутентификации.
+     *
+     *
+     * @param userDTO Данные пользователя для регистрации.
+     * @param bindingResult Представляет результаты привязки в процессе валидации. Внедряется автоматически Spring.
+     * @return ResponseEntity с JWT-токеном при успешной регистрации или
+     * ответом с ошибкой Bad Request с сообщениями о валидации, если входные данные недопустимы.
+     *
+     */
     @PostMapping("/registration")
     public ResponseEntity<?> performRegistration(@RequestBody @Valid UserDTO userDTO,
                                                    BindingResult bindingResult) {
@@ -52,6 +62,12 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Обрабатывает процесс аутентификации пользователя, создавая новый JWT-токен при успешном входе в систему.
+     * @param authenticationDTO Данные аутентификации пользователя.
+     * @return ResponseEntity с JWT-токеном при успешной аутентификации или
+     *         ответом с ошибкой Unauthorized в случае неверных учетных данных.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> performLogin(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
         UsernamePasswordAuthenticationToken authInputToken =

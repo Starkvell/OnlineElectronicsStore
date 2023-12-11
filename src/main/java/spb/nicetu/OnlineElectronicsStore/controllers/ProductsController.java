@@ -28,17 +28,31 @@ public class ProductsController {
         this.productMapper = productMapper;
     }
 
+    /**
+     * Получает список всех продуктов.
+     * @return Список DTO продуктов.
+     */
     @GetMapping
     public List<ProductDTO> getProducts() {
         return productService.findAll().stream().map(productMapper::convertToDTO).collect(Collectors.toList());
     }
 
+
+    /**
+     * Получает продукт по id.
+     * @param id Id продукта.
+     * @return DTO продукта.
+     */
     @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable Integer id){
         return productMapper.convertToDTO(productService.findOne(id));
     }
 
-
+    /**
+     * Обрабатывает исключение, возникающее при отсутствии продукта.
+     * @param exception Исключение типа {@code ProductNotFoundException}, представляющее отсутствие продукта.
+     * @return ResponseEntity с HTTP Status Code 404 NOT FOUND и сообщением об ошибке.
+     */
     @ExceptionHandler
     private ResponseEntity<?> handleException(ProductNotFoundException exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());

@@ -28,12 +28,16 @@ public class UsersController {
     }
 
 
+    /**
+     * Получает информацию о текущем аутентифицированном пользователе.
+     * @param userDetails Информация о текущем аутентифицированном пользователе. Внедряется Spring автоматически.
+     * @return DTO пользователя при успешном запросе.
+     */
     @GetMapping("/current")
     public UserDTO getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
-        UserDTO userDTO = userMapper.convertToDTO(user);
 
-        return userDTO;
+        return userMapper.convertToDTO(user);
     }
 
 

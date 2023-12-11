@@ -35,6 +35,14 @@ public class CartsController {
         this.userService = userService;
     }
 
+    /**
+     *  Добавляет продукт в корзину пользователя
+     * @param userDetails Информация о текущем аутентифицированном пользователе.
+     * @param productId  Идентификатор продукта, который требуется добавить в корзину.
+     * @param quantity Количество единиц продукта, которые следует добавить в корзину.
+     * @return ResponseEntity с HTTP Status Code 201 CREATED при успешном добавлении продукта в корзину
+     *  или ошибку с HTTP Status Code 400.
+     */
     @PostMapping("/add-product")
     public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserDetails userDetails,
                                               @RequestParam("productId") int productId,
@@ -54,6 +62,12 @@ public class CartsController {
     }
 
 
+    /**
+     * Получает информацию о текущей корзине пользователя.
+     * @param userDetails Информация о текущем аутентифицированном пользователе.
+     * @return ResponseEntity с HTTP Status Code 200 OK и DTO корзины при успешном запросе,
+     *  *         или ответ с ошибкой Bad Request и сообщением, если у пользователя нет корзины.
+     */
     @GetMapping("/current")
     public ResponseEntity<?> getCart(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByEmail(userDetails.getUsername());
