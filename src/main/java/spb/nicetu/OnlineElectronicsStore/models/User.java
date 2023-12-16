@@ -44,4 +44,12 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    public void addOrder(Order order){
+        orderList.add(order);
+    }
+
+    public void removeOrder(Order order){
+        orderList.remove(order);
+    }
 }

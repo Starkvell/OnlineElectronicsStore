@@ -18,6 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductDTO implements Serializable {
 
+    private int id;
+
     @NotEmpty(message = "Название не должно быть пустым")
     private String title;
 

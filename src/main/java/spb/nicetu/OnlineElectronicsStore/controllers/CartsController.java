@@ -36,7 +36,7 @@ public class CartsController {
     }
 
     /**
-     *  Добавляет продукт в корзину пользователя
+     *  Добавляет продукт в корзину аутентифицированного пользователя
      * @param userDetails Информация о текущем аутентифицированном пользователе.
      * @param productId  Идентификатор продукта, который требуется добавить в корзину.
      * @param quantity Количество единиц продукта, которые следует добавить в корзину.
@@ -63,10 +63,10 @@ public class CartsController {
 
 
     /**
-     * Получает информацию о текущей корзине пользователя.
+     * Получает информацию о текущей корзине аутентифицированного пользователя.
      * @param userDetails Информация о текущем аутентифицированном пользователе.
      * @return ResponseEntity с HTTP Status Code 200 OK и DTO корзины при успешном запросе,
-     *  *         или ответ с ошибкой Bad Request и сообщением, если у пользователя нет корзины.
+     *  *         или ответ с ошибкой NOT FOUND и сообщением, если у пользователя нет корзины.
      */
     @GetMapping("/current")
     public ResponseEntity<?> getCart(@AuthenticationPrincipal UserDetails userDetails) {
@@ -74,7 +74,7 @@ public class CartsController {
         Cart cart = user.getCart();
 
         if (cart == null) {
-            return new ResponseEntity<>("User has not cart", HttpStatus.BAD_REQUEST); //TODO: Error response
+            return new ResponseEntity<>("User has not cart", HttpStatus.NOT_FOUND); //TODO: Error response
         }
 
 

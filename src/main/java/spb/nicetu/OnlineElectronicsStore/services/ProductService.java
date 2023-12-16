@@ -27,4 +27,16 @@ public class ProductService {
         return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
+    /**
+     * Получить текущее количество товаров на складе по ID продукта.
+     * @param productId ID продукта
+     * @return  Текущее количество товаров
+     */
+    public int getAvailableProductCount(int productId){
+        Product product = productsRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+
+        return product.getStockQuantity();
+    }
+
 }

@@ -27,11 +27,20 @@ public class CategoriesController {
         this.categoryMapper = categoryMapper;
     }
 
+    /**
+     * Получает список всех категорий товаров.
+     * @return Список категорий товаров.
+     */
     @GetMapping()
     public List<CategoryDTO> getCategories(){
         return categoryService.findAll().stream().map(categoryMapper::convertToDTO).collect(Collectors.toList());
     }
 
+    /**
+     * Получает категорию по ее ID.
+     * @param id ID категории.
+     * @return Категория товара.
+     */
     @GetMapping("/{id}")
     public CategoryDTO getCategory(@PathVariable Integer id){
         Category one = categoryService.findOne(id);
