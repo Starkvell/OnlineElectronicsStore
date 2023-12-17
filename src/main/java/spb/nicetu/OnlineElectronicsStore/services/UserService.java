@@ -1,6 +1,7 @@
 package spb.nicetu.OnlineElectronicsStore.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.UserRepository;
@@ -19,11 +20,13 @@ public class UserService {
 
     public User findByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        return user.orElseThrow(UserNotFoundException::new);
+        return user.orElseThrow(() -> new UserNotFoundException(
+                String.format("User with email: '%s' not found", email)
+        ));
     }
 
     public User findOne(int id) {
         Optional<User> foundUser = userRepository.findById(id);
-        return foundUser.orElseThrow(UserNotFoundException::new);
+        return foundUser.orElseThrow(() -> new UserNotFoundException(id));
     }
 }

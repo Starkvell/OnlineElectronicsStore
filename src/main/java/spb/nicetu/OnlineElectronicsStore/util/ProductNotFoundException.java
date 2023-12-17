@@ -1,7 +1,11 @@
 package spb.nicetu.OnlineElectronicsStore.util;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ProductNotFoundException extends NotFoundException {
     public ProductNotFoundException(Integer id) {
-        super("Could not find product " + id);
+        super(id, "product");
+    }
+
+    public ProductNotFoundException(String message){
+        super(message);
     }
 }

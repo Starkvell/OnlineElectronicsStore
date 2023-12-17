@@ -1,7 +1,7 @@
 package spb.nicetu.OnlineElectronicsStore.util;
 
-public class OrderNotFoundException extends RuntimeException{
-    public OrderNotFoundException(Integer id){
-        super("Could not find order " + id);
+public class OrderNotFoundException extends NotFoundException{
+    public OrderNotFoundException(Integer id) {
+        super(id, "order");
     }
 }

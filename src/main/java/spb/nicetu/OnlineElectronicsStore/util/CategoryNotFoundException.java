@@ -1,7 +1,11 @@
 package spb.nicetu.OnlineElectronicsStore.util;
 
-public class CategoryNotFoundException extends RuntimeException{
-    public CategoryNotFoundException(Integer id){
-        super("Could not find category " + id);
+public class CategoryNotFoundException extends NotFoundException{
+    public CategoryNotFoundException(Integer id) {
+        super(id, "category");
+    }
+
+    public CategoryNotFoundException(String message){
+        super(message);
     }
 }

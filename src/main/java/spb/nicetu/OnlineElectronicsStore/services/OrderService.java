@@ -7,6 +7,7 @@ import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
 import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.repositories.OrdersRepository;
 import spb.nicetu.OnlineElectronicsStore.util.OrderNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -71,7 +72,7 @@ public class OrderService {
             }
 
             if (orderDetails.getQuantity() > productService.getAvailableProductCount(orderDetails.getProduct().getId())){
-                throw new RuntimeException("Количество товара в заказе превышает количество товара на складе");
+                throw new ProductNotFoundException("Количество товара в заказе превышает количество товара на складе");
             }
 
 

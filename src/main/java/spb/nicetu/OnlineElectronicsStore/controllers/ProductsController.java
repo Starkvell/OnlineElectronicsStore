@@ -48,14 +48,5 @@ public class ProductsController {
         return productMapper.convertToDTO(productService.findOne(id));
     }
 
-    /**
-     * Обрабатывает исключение, возникающее при отсутствии продукта.
-     * @param exception Исключение типа {@code ProductNotFoundException}, представляющее отсутствие продукта.
-     * @return ResponseEntity с HTTP Status Code 404 NOT FOUND и сообщением об ошибке.
-     */
-    @ExceptionHandler
-    private ResponseEntity<?> handleException(ProductNotFoundException exception){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
-    }
 
 }
