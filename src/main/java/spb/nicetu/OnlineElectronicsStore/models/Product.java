@@ -1,5 +1,6 @@
 package spb.nicetu.OnlineElectronicsStore.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class Product {
     private BigDecimal discountPrice;
 
     @ManyToMany
-    @JsonManagedReference
+    @JsonBackReference
     @JoinTable(
             name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),

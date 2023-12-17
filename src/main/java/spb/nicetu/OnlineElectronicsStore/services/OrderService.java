@@ -11,8 +11,10 @@ import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -45,14 +47,13 @@ public class OrderService {
     }
 
     private void enrichOrder(Order order) {
-        for (OrderDetails orderDetails : order.getOrderDetails()) {
-            Product product = productService.findOne(orderDetails.getProduct().getId());
-            orderDetails.setProduct(product);
-            orderDetails.setOrder(order);
-            orderDetails.setPrice(orderDetailsService.calculatePrice(orderDetails));
-        }
+        List<OrderDetails> orderDetailsList = order.getOrderDetails().stream()
+                .map(orderDetails -> orderDetailsService.createOrderDetails(
+                        orderDetails.getQuantity(), order, orderDetails.getProduct()
+                ))
+                .collect(Collectors.toList());
 
-
+        order.setOrderDetails(orderDetailsList);
         order.setCreatedAt(new Date());
         BigDecimal totalAmount = calculateTotalAmount(order);
         order.setTotalAmount(totalAmount);

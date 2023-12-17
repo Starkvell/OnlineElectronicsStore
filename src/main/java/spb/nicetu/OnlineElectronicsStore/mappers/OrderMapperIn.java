@@ -1,11 +1,10 @@
 package spb.nicetu.OnlineElectronicsStore.mappers;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsDTO;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
 import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
@@ -30,7 +29,7 @@ public interface OrderMapperIn {
             @Mapping(source = "quantity", target = "quantity"),
             @Mapping(target = "product", source = "product_id"),
     })
-    OrderDetails orderDetailsDtoToOrderDetails(OrderDetailsDTO orderDetailsDTO);
+    OrderDetails orderDetailsDtoToOrderDetails(OrderDetailsRequestDTO orderDetailsDTO);
 
     @Mappings({
             @Mapping(target = "address",source = "address"),
@@ -39,7 +38,7 @@ public interface OrderMapperIn {
     Order orderRequestDtoToOrder(OrderRequestDTO orderRequestDTO);
 
     List<Order> orderRequestDtosToOrders(List<OrderRequestDTO> orderRequestDTOs);
-    List<OrderDetails> orderDetailsDtosToOrderDetails(List<OrderDetailsDTO> orderDetailsDTOs);
+    List<OrderDetails> orderDetailsDtosToOrderDetails(List<OrderDetailsRequestDTO> orderDetailsDTOs);
 
     default Product map(int value){
         Product product = new Product();

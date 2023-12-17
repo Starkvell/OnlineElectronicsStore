@@ -20,9 +20,9 @@ public class OrderRequestDTO implements Serializable {
 
     @NotEmpty
     @Valid
-    private List<OrderDetailsDTO> orderDetails;
+    private List<OrderDetailsRequestDTO> orderDetails;
 
-    public List<OrderDetailsDTO> getOrderDetails() {
+    public List<OrderDetailsRequestDTO> getOrderDetails() {
         return orderDetails;
     }
 }

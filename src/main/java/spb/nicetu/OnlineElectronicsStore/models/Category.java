@@ -2,6 +2,7 @@ package spb.nicetu.OnlineElectronicsStore.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    @JsonBackReference
+    @JsonManagedReference
     @ToString.Exclude
     private List<Product> products;
 
