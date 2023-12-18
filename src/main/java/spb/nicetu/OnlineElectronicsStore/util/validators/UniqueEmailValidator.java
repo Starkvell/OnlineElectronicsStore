@@ -1,11 +1,9 @@
-package spb.nicetu.OnlineElectronicsStore.validators;
+package spb.nicetu.OnlineElectronicsStore.util.validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import spb.nicetu.OnlineElectronicsStore.annotations.UniqueEmail;
-import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.services.UserService;
-import spb.nicetu.OnlineElectronicsStore.util.UserNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.UserNotFoundException;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

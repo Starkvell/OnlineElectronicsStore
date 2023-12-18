@@ -1,19 +1,22 @@
 package spb.nicetu.OnlineElectronicsStore.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-@Data
-@Entity
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "orders")
 public class Order {
     @Id
@@ -21,13 +24,13 @@ public class Order {
     @Column(name = "order_id")
     private int id;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount",nullable = false)
     private BigDecimal totalAmount;
 
-    @Column(name = "address")
+    @Column(name = "address",nullable = false)
     private String address;
 
     @ManyToOne
@@ -35,6 +38,7 @@ public class Order {
     private User owner;
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<OrderDetails> orderDetails;
 
     public void setOrderDetails(List<OrderDetails> orderDetails) {
@@ -54,5 +58,18 @@ public class Order {
 
     public void removeOrderDetails(OrderDetails orderDetails){
         this.orderDetails.remove(orderDetails);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

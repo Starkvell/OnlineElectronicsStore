@@ -4,17 +4,20 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Entity
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Table(name = "categories")
 public class Category {
     @Id
@@ -58,18 +61,13 @@ public class Category {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Category category = (Category) o;
-
-        if (id != category.id) return false;
-        return name != null ? name.equals(category.name) : category.name == null;
+        return Objects.equals(id, category.id);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
+        return getClass().hashCode();
     }
 }

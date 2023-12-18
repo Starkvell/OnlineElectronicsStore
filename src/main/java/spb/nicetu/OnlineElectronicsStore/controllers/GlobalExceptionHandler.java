@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import spb.nicetu.OnlineElectronicsStore.util.NotFoundException;
-import spb.nicetu.OnlineElectronicsStore.util.NotFoundExceptionResponse;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.NotFoundException;
+import spb.nicetu.OnlineElectronicsStore.dto.NotFoundExceptionResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

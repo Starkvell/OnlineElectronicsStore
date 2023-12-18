@@ -1,6 +1,6 @@
 package spb.nicetu.OnlineElectronicsStore.annotations;
 
-import spb.nicetu.OnlineElectronicsStore.validators.UniqueEmailValidator;
+import spb.nicetu.OnlineElectronicsStore.util.validators.UniqueEmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

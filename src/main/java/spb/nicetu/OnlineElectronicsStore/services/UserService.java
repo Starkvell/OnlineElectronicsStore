@@ -1,11 +1,10 @@
 package spb.nicetu.OnlineElectronicsStore.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.UserRepository;
-import spb.nicetu.OnlineElectronicsStore.util.UserNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.UserNotFoundException;
 
 import java.util.Optional;
 

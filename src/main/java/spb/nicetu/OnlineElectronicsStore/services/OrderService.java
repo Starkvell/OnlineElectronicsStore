@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
 import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
-import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.repositories.OrdersRepository;
-import spb.nicetu.OnlineElectronicsStore.util.OrderNotFoundException;
-import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.OrderNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.ProductNotFoundException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

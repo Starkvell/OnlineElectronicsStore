@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.repositories.ProductsRepository;
-import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.ProductNotFoundException;
 
 import javax.transaction.Transactional;
 import java.util.List;

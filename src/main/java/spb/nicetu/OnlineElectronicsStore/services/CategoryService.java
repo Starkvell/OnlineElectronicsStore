@@ -2,11 +2,9 @@ package spb.nicetu.OnlineElectronicsStore.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spb.nicetu.OnlineElectronicsStore.dto.CategoryDTO;
 import spb.nicetu.OnlineElectronicsStore.models.Category;
 import spb.nicetu.OnlineElectronicsStore.repositories.CategoriesRepository;
-import spb.nicetu.OnlineElectronicsStore.util.CategoryNotFoundException;
-import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.CategoryNotFoundException;
 
 import java.util.List;
 

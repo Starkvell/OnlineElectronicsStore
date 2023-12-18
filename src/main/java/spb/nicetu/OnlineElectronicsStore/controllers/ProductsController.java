@@ -1,17 +1,11 @@
 package spb.nicetu.OnlineElectronicsStore.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spb.nicetu.OnlineElectronicsStore.dto.ProductDTO;
 import spb.nicetu.OnlineElectronicsStore.mappers.ProductMapper;
-import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.services.ProductService;
-import spb.nicetu.OnlineElectronicsStore.util.ProductNotFoundException;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 

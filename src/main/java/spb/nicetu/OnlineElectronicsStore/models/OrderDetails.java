@@ -1,17 +1,20 @@
 package spb.nicetu.OnlineElectronicsStore.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
-@Data
-@Entity
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "order_details")
 public class OrderDetails {
     @Id
@@ -19,10 +22,10 @@ public class OrderDetails {
     @Column(name = "order_detail_id")
     private int id;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity",nullable = false)
     private int quantity;
 
-    @Column(name = "price")
+    @Column(name = "price",nullable = false)
     private BigDecimal price;
 
     @ManyToOne
@@ -38,5 +41,18 @@ public class OrderDetails {
         this.price = price;
         this.order = order;
         this.product = product;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        OrderDetails that = (OrderDetails) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

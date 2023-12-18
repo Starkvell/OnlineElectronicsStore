@@ -1,18 +1,20 @@
 package spb.nicetu.OnlineElectronicsStore.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.List;
+import java.util.Objects;
 
-@Data
-@Entity
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "users")
 public class User {
     @Id
@@ -36,6 +38,7 @@ public class User {
     private Cart cart;
 
     @OneToMany(mappedBy = "owner")
+    @ToString.Exclude
     private List<Order> orderList;
 
     public User(String firstName, String lastName, String email, String password) {
@@ -52,4 +55,19 @@ public class User {
     public void removeOrder(Order order){
         orderList.remove(order);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+
 }
