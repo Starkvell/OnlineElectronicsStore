@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
-import spb.nicetu.OnlineElectronicsStore.mappers.OrderMapper;
 import spb.nicetu.OnlineElectronicsStore.mappers.OrderMapperIn;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
 import spb.nicetu.OnlineElectronicsStore.models.User;
@@ -29,23 +28,21 @@ public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
 
-    private final OrderMapper orderMapper;
 
     @Autowired
-    public OrderController(OrderService orderService, UserService userService, OrderMapper orderMapper) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
         this.userService = userService;
-        this.orderMapper = orderMapper;
     }
 
     @GetMapping()   // TODO: для админки
     public List<OrderDTO> getOrders(){
-        return orderService.findAll().stream().map(orderMapper::convertToDTO).collect(Collectors.toList());
+        return orderService.findAll().stream().map(OrderMapperIn.MAPPER::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")  // TODO: для админки
     public OrderDTO getOrder(@PathVariable Integer id){
-        return orderMapper.convertToDTO(orderService.findOne(id));
+        return OrderMapperIn.MAPPER.convertToDTO(orderService.findOne(id));
     }
 
     @GetMapping("/current")
@@ -53,7 +50,7 @@ public class OrderController {
         User user = userService.findByEmail(userDetails.getUsername());
         List<Order> orderList = user.getOrderList();
 
-        return orderList.stream().map(orderMapper::convertToDTO).collect(Collectors.toList());
+        return orderList.stream().map(OrderMapperIn.MAPPER::convertToDTO).collect(Collectors.toList());
     }
 
 

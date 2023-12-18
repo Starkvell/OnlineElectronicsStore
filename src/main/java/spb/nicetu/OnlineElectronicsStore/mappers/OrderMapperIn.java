@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
@@ -16,13 +17,6 @@ import java.util.List;
 public interface OrderMapperIn {
 
     OrderMapperIn MAPPER = Mappers.getMapper(OrderMapperIn.class);
-
-//    @Mapping(source = "address", target = "address")
-//    @Mapping(source = "orderDetails", target = "orderDetails")
-//    Order toOrder(OrderRequestDTO orderRequestDTO);
-//
-//    @InheritInverseConfiguration
-//    OrderRequestDTO fromOrder(Order order);
 
 
     @Mappings({
@@ -39,6 +33,9 @@ public interface OrderMapperIn {
 
     List<Order> orderRequestDtosToOrders(List<OrderRequestDTO> orderRequestDTOs);
     List<OrderDetails> orderDetailsDtosToOrderDetails(List<OrderDetailsRequestDTO> orderDetailsDTOs);
+
+    OrderDTO convertToDTO(Order order);
+    Order convertToEntity(OrderDTO orderDTO);
 
     default Product map(int value){
         Product product = new Product();
