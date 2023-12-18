@@ -11,6 +11,7 @@ import spb.nicetu.OnlineElectronicsStore.dto.OrderDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.mappers.OrderMapperIn;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
+import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.services.OrderService;
 import spb.nicetu.OnlineElectronicsStore.services.UserService;

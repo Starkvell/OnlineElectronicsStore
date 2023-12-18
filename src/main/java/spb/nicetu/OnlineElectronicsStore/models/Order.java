@@ -34,7 +34,7 @@ public class Order {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User owner;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderDetails> orderDetails;
 
     public void setOrderDetails(List<OrderDetails> orderDetails) {
