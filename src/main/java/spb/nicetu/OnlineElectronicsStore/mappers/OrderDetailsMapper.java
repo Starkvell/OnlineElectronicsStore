@@ -1,27 +1,35 @@
 package spb.nicetu.OnlineElectronicsStore.mappers;
 
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
+import spb.nicetu.OnlineElectronicsStore.models.Product;
 
-@Component
-public class OrderDetailsMapper {
+@Mapper
+public interface OrderDetailsMapper {
+    OrderDetailsMapper MAPPER = Mappers.getMapper(OrderDetailsMapper.class);
 
-    private final ModelMapper modelMapper;
+    OrderDetailsDTO toOrderDetailsDTO(OrderDetails orderDetails);
 
-    @Autowired
-    public OrderDetailsMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
+    OrderDetails toOrderDetails(OrderDetailsDTO orderDetailsDTO);
 
-    public OrderDetailsRequestDTO convertToDTO(OrderDetailsRequestDTO orderDetailsDTO) {
-        return modelMapper.map(orderDetailsDTO, OrderDetailsRequestDTO.class);
-    }
+    OrderDetailsRequestDTO toOrderDetailsRequestDTO(OrderDetails orderDetails);
 
-    public OrderDetails convertToEntity(OrderDetailsRequestDTO orderDetailsDTO) {
-        return modelMapper.map(orderDetailsDTO, OrderDetails.class);
+
+    @Mappings({
+            @Mapping(source = "quantity", target = "quantity"),
+            @Mapping(target = "product", source = "product_id"),
+    })
+    OrderDetails toOrderDetails(OrderDetailsRequestDTO orderDetailsRequestDTO);
+
+
+    default Product map(int value){
+        Product product = new Product();
+        product.setId(value);
+        return product;
     }
 }

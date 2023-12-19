@@ -1,28 +1,24 @@
 package spb.nicetu.OnlineElectronicsStore.mappers;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import spb.nicetu.OnlineElectronicsStore.dto.CartDTO;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 import spb.nicetu.OnlineElectronicsStore.dto.CartItemDTO;
-import spb.nicetu.OnlineElectronicsStore.models.Cart;
 import spb.nicetu.OnlineElectronicsStore.models.CartItem;
 
-@Component
-public class CartItemMapper {
+@Mapper
+public interface CartItemMapper {
+    CartItemMapper MAPPER = Mappers.getMapper(CartItemMapper.class);
 
-    private final ModelMapper modelMapper;
+    @Mappings({
+            @Mapping(source = "product", target = "product"),
+            @Mapping(source = "quantity", target = "quantity")
+    })
+    CartItemDTO toCartItemDTO(CartItem cartItem);
 
-    @Autowired
-    public CartItemMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
+    @InheritInverseConfiguration
+    CartItem toCartItem(CartItemDTO cartDTO);
 
-    public CartItemDTO convertToDTO(CartItem cartItem) {
-        return modelMapper.map(cartItem, CartItemDTO.class);
-    }
-
-    public CartItem convertToEntity(CartItemDTO cartItemDTO) {
-        return modelMapper.map(cartItemDTO, CartItem.class);
-    }
 }

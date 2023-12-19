@@ -1,26 +1,25 @@
 package spb.nicetu.OnlineElectronicsStore.mappers;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 import spb.nicetu.OnlineElectronicsStore.dto.UserDTO;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 
-@Component
-public class UserMapper {
+@Mapper
+public interface UserMapper {
+    UserMapper MAPPER = Mappers.getMapper(UserMapper.class);
 
-    private final ModelMapper modelMapper;
+    @Mappings({
+            @Mapping(source = "firstName", target = "firstName"),
+            @Mapping(source = "lastName", target = "lastName"),
+            @Mapping(source = "email", target = "email"),
+            @Mapping(source = "password", target = "password")
+    })
+    UserDTO toUserDTO(User user);
 
-    @Autowired
-    public UserMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
-    public UserDTO convertToDTO(User user) {
-        return modelMapper.map(user, UserDTO.class);
-    }
-
-    public User convertToEntity(UserDTO userDTO) {
-        return modelMapper.map(userDTO, User.class);
-    }
+    @InheritInverseConfiguration
+    User toUser(UserDTO userDTO);
 }

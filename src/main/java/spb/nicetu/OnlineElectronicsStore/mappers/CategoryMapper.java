@@ -1,23 +1,25 @@
 package spb.nicetu.OnlineElectronicsStore.mappers;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 import spb.nicetu.OnlineElectronicsStore.dto.CategoryDTO;
 import spb.nicetu.OnlineElectronicsStore.models.Category;
 
-@Component
-public class CategoryMapper {
-    private final ModelMapper modelMapper;
+@Mapper
+public interface CategoryMapper {
+    CategoryMapper MAPPER = Mappers.getMapper(CategoryMapper.class);
 
-    public CategoryMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
+    @Mappings({
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "products", target = "products"),
+            @Mapping(source = "childCategories", target = "childCategories")
+    })
+    CategoryDTO toCategoryDTO(Category category);
 
-    public CategoryDTO convertToDTO(Category category) {
-        return modelMapper.map(category, CategoryDTO.class);
-    }
-
-    public Category convertToEntity(CategoryDTO categoryDTO) {
-        return modelMapper.map(categoryDTO, Category.class);
-    }
+    @InheritInverseConfiguration
+    Category toCategory(CategoryDTO categoryDTO);
 }

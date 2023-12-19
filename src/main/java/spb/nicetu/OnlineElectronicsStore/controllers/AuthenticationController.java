@@ -23,15 +23,13 @@ import java.util.Map;
 @RequestMapping("/auth")
 public class AuthenticationController {
     private final JWTUtil jwtUtil;
-    private final UserMapper userMapper;
 
     private final AuthenticationService authenticationService;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationController(JWTUtil jwtUtil, UserMapper userMapper, AuthenticationService authenticationService, AuthenticationManager authenticationManager) {
+    public AuthenticationController(JWTUtil jwtUtil, AuthenticationService authenticationService, AuthenticationManager authenticationManager) {
         this.jwtUtil = jwtUtil;
-        this.userMapper = userMapper;
         this.authenticationService = authenticationService;
         this.authenticationManager = authenticationManager;
     }
@@ -53,7 +51,7 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors());
         }
 
-        User user = userMapper.convertToEntity(userDTO);
+        User user = UserMapper.MAPPER.toUser(userDTO);
         authenticationService.register(user);
 
         String token = jwtUtil.generateToken(user.getEmail());

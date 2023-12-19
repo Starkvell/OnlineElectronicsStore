@@ -13,7 +13,6 @@ import spb.nicetu.OnlineElectronicsStore.models.Cart;
 import spb.nicetu.OnlineElectronicsStore.models.CartItem;
 import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.models.User;
-import spb.nicetu.OnlineElectronicsStore.security.UserDetailsImpl;
 import spb.nicetu.OnlineElectronicsStore.services.CartsService;
 import spb.nicetu.OnlineElectronicsStore.services.ProductService;
 import spb.nicetu.OnlineElectronicsStore.services.UserService;
@@ -24,13 +23,11 @@ import spb.nicetu.OnlineElectronicsStore.services.UserService;
 public class CartsController {
     private final CartsService cartService;
     private final ProductService productService;
-    private final CartMapper cartMapper;
     private final UserService userService;
 
     @Autowired
-    public CartsController(CartsService cartService, CartMapper cartMapper, ProductService productService, UserService userService) {
+    public CartsController(CartsService cartService, ProductService productService, UserService userService) {
         this.cartService = cartService;
-        this.cartMapper = cartMapper;
         this.productService = productService;
         this.userService = userService;
     }
@@ -78,7 +75,7 @@ public class CartsController {
         }
 
 
-        CartDTO cartDTO = cartMapper.convertToDTO(cart);
+        CartDTO cartDTO = CartMapper.MAPPER.toCartDTO(cart);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
 

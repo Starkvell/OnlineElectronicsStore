@@ -1,7 +1,6 @@
 package spb.nicetu.OnlineElectronicsStore.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +18,10 @@ import java.util.stream.Collectors;
 public class CategoriesController {
 
     private final CategoryService categoryService;
-    private final CategoryMapper categoryMapper;
 
     @Autowired
-    public CategoriesController(CategoryService categoryService, CategoryMapper categoryMapper) {
+    public CategoriesController(CategoryService categoryService) {
         this.categoryService = categoryService;
-        this.categoryMapper = categoryMapper;
     }
 
     /**
@@ -33,7 +30,7 @@ public class CategoriesController {
      */
     @GetMapping()
     public List<CategoryDTO> getCategories(){
-        return categoryService.findAll().stream().map(categoryMapper::convertToDTO).collect(Collectors.toList());
+        return categoryService.findAll().stream().map(CategoryMapper.MAPPER::toCategoryDTO).collect(Collectors.toList());
     }
 
     /**
@@ -44,7 +41,7 @@ public class CategoriesController {
     @GetMapping("/{id}")
     public CategoryDTO getCategory(@PathVariable Integer id){
         Category one = categoryService.findOne(id);
-        return categoryMapper.convertToDTO(one);
+        return CategoryMapper.MAPPER.toCategoryDTO(one);
     }
 
 

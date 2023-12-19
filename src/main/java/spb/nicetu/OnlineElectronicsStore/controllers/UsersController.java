@@ -11,20 +11,15 @@ import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.security.UserDetailsImpl;
 import spb.nicetu.OnlineElectronicsStore.services.UserService;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/users")
 public class UsersController {
 
     private final UserService userService;
 
-    private final UserMapper userMapper;
-
     @Autowired
-    public UsersController(UserService userService, UserMapper userMapper) {
+    public UsersController(UserService userService) {
         this.userService = userService;
-        this.userMapper = userMapper;
     }
 
 
@@ -37,7 +32,7 @@ public class UsersController {
     public UserDTO getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
         User user = userDetails.getUser();
 
-        return userMapper.convertToDTO(user);
+        return UserMapper.MAPPER.toUserDTO(user);
     }
 
 

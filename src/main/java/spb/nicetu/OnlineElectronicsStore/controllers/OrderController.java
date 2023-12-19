@@ -9,16 +9,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderDTO;
 import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
-import spb.nicetu.OnlineElectronicsStore.mappers.OrderMapperIn;
+import spb.nicetu.OnlineElectronicsStore.mappers.OrderMapper;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
-import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.services.OrderService;
 import spb.nicetu.OnlineElectronicsStore.services.UserService;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,12 +35,12 @@ public class OrderController {
 
     @GetMapping()   // TODO: для админки
     public List<OrderDTO> getOrders(){
-        return orderService.findAll().stream().map(OrderMapperIn.MAPPER::convertToDTO).collect(Collectors.toList());
+        return orderService.findAll().stream().map(OrderMapper.MAPPER::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")  // TODO: для админки
     public OrderDTO getOrder(@PathVariable Integer id){
-        return OrderMapperIn.MAPPER.convertToDTO(orderService.findOne(id));
+        return OrderMapper.MAPPER.convertToDTO(orderService.findOne(id));
     }
 
     @GetMapping("/current")
@@ -51,7 +48,7 @@ public class OrderController {
         User user = userService.findByEmail(userDetails.getUsername());
         List<Order> orderList = user.getOrderList();
 
-        return orderList.stream().map(OrderMapperIn.MAPPER::convertToDTO).collect(Collectors.toList());
+        return orderList.stream().map(OrderMapper.MAPPER::convertToDTO).collect(Collectors.toList());
     }
 
 
@@ -71,7 +68,7 @@ public class OrderController {
         }
 
         User user = userService.findByEmail(userDetails.getUsername());
-        Order order = OrderMapperIn.MAPPER.orderRequestDtoToOrder(orderRequestDTO);
+        Order order = OrderMapper.MAPPER.toOrder(orderRequestDTO);
         order.setOwner(user);
         orderService.createOrder(order);
 
