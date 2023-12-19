@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -24,11 +23,10 @@ public class Cart {
     @Column(name = "cart_id")
     private int id;
 
-    @Setter(AccessLevel.NONE)
-    @Transient()
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    @Transient
+    @Column(name = "totalCost", nullable = false)
     private BigDecimal totalCost;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -45,21 +43,6 @@ public class Cart {
 
     public void removeItem(CartItem cartItem) {
         this.cartItems.remove(cartItem);
-    }
-
-    public int getQuantity() {
-        return cartItems.size();
-    }
-
-    public BigDecimal getTotalCost() {
-        BigDecimal total = BigDecimal.ZERO;
-
-        for (CartItem cartItem : cartItems) {
-            BigDecimal itemPrice = user != null ? cartItem.getProduct().getDiscountPrice(): cartItem.getProduct().getBasePrice();
-            total = total.add(itemPrice.multiply(BigDecimal.valueOf(cartItem.getQuantity())));
-        }
-
-        return total;
     }
 
     public Cart(int quantity, BigDecimal totalCost) {
