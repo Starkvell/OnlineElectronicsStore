@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import spb.nicetu.OnlineElectronicsStore.dto.CartDTO;
+import spb.nicetu.OnlineElectronicsStore.dto.CartRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.mappers.CartMapper;
 import spb.nicetu.OnlineElectronicsStore.models.Cart;
 import spb.nicetu.OnlineElectronicsStore.models.CartItem;
@@ -16,6 +17,7 @@ import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.services.CartsService;
 import spb.nicetu.OnlineElectronicsStore.services.ProductService;
 import spb.nicetu.OnlineElectronicsStore.services.UserService;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.CartNotFoundException;
 
 
 @RestController
@@ -74,6 +76,44 @@ public class CartsController {
             return new ResponseEntity<>("User has not cart", HttpStatus.NOT_FOUND); //TODO: Error response
         }
 
+
+        CartDTO cartDTO = CartMapper.MAPPER.toCartDTO(cart);
+        return new ResponseEntity<>(cartDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/current")
+    public ResponseEntity<?> createCart(@AuthenticationPrincipal UserDetails userDetails,
+                                        @RequestBody CartRequestDTO cartRequestDTO){
+        User user = userService.findByEmail(userDetails.getUsername());
+        if (user.getCart() != null){
+            return new ResponseEntity<>("У пользователя уже есть корзина, сначала удалите старую",
+                    HttpStatus.BAD_REQUEST);
+        }
+        Cart cart = cartService.createCart(cartRequestDTO, user);
+
+        CartDTO cartDTO = CartMapper.MAPPER.toCartDTO(cart);
+        return new ResponseEntity<>(cartDTO, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("current")
+    public ResponseEntity<?> deleteCart(@AuthenticationPrincipal UserDetails userDetails){
+        User user = userService.findByEmail(userDetails.getUsername());
+        if (user.getCart() == null){
+            throw new CartNotFoundException("У пользователя нет корзины");
+        }
+        cartService.deleteCart(user.getCart());
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PatchMapping("/current")
+    public ResponseEntity<?> updateCart(@AuthenticationPrincipal UserDetails userDetails,
+                                        @RequestBody CartRequestDTO cartRequestDTO){
+        User user = userService.findByEmail(userDetails.getUsername());
+        if (user.getCart() == null){
+            throw new CartNotFoundException("У пользователя нет корзины");
+        }
+        Cart cart = cartService.updateCart(cartRequestDTO, user);
 
         CartDTO cartDTO = CartMapper.MAPPER.toCartDTO(cart);
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);

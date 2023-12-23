@@ -16,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDTO implements Serializable {
+    private int id;
     private int quantity;
     private BigDecimal totalCost;
     private Set<CartItemDTO> cartItems;

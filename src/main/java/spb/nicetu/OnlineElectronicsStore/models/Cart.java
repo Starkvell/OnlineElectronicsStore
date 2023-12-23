@@ -29,7 +29,7 @@ public class Cart {
     @Column(name = "totalCost", nullable = false)
     private BigDecimal totalCost;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
@@ -60,6 +60,15 @@ public class Cart {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(id,quantity,totalCost);
+    }
+
+    public CartItem getCartItemByProductId(int productId) {
+        for (CartItem cartItem: this.cartItems){
+            if (cartItem.getProduct().getId() == productId) {
+                return cartItem;
+            }
+        }
+        return null;
     }
 }

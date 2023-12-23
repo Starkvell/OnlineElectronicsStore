@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/auth/**","/swagger-ui/**").permitAll()
+                        .antMatchers("/auth/**","/swagger-ui/**","/api/products/**","/api/categories/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.
                         sessionCreationPolicy(SessionCreationPolicy.STATELESS))
