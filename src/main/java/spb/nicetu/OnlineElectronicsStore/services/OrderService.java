@@ -36,6 +36,8 @@ public class OrderService {
         return ordersRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
     }
 
+    // Создает заказ
+    //TODO: Переписать Order на OrderRequestDTO
     @Transactional
     public void createOrder(Order order) {
         // Заполняем детали заказа данными и продуктами

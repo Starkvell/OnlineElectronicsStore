@@ -44,11 +44,12 @@ public class Order {
         this.orderDetails = orderDetails;
     }
 
-    public Order(Date createdAt, BigDecimal totalAmount, String address, User owner) {
+    public Order(Date createdAt, BigDecimal totalAmount, String address, User owner,List<OrderDetails> orderDetails ) {
         this.createdAt = createdAt;
         this.totalAmount = totalAmount;
         this.address = address;
         this.owner = owner;
+        this.orderDetails = orderDetails;
     }
 
     public void addOrderDetails(OrderDetails orderDetails){

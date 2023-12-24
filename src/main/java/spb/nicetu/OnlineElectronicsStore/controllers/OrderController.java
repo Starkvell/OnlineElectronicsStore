@@ -70,7 +70,8 @@ public class OrderController {
         User user = userService.findByEmail(userDetails.getUsername());
         Order order = OrderMapper.MAPPER.toOrder(orderRequestDTO);
         order.setOwner(user);
-        orderService.createOrder(order);
+        orderService.createOrder(order); /* TODO: Сделать уменьшение товара, на складе при оформлении заказа,
+                                             сделать уменьшение товара в заказе, если на складе его меньше. */
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
