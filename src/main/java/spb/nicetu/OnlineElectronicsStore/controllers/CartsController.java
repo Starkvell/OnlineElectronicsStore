@@ -73,7 +73,7 @@ public class CartsController {
         Cart cart = user.getCart();
 
         if (cart == null) {
-            return new ResponseEntity<>("User has not cart", HttpStatus.NOT_FOUND); //TODO: Error response
+            throw new CartNotFoundException("User has not cart");
         }
 
 

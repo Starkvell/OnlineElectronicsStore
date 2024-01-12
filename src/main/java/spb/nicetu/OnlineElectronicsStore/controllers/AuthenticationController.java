@@ -52,7 +52,7 @@ public class AuthenticationController {
         }
 
         User user = UserMapper.MAPPER.toUser(userDTO);
-        authenticationService.register(user);
+        authenticationService.register(user); // TODO: Сделать возвращаемое значение User, передавать DTO
 
         String token = jwtUtil.generateToken(user.getEmail());
         Map<String, String> response = Collections.singletonMap("jwt-token", token);

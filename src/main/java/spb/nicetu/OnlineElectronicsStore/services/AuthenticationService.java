@@ -22,7 +22,7 @@ public class AuthenticationService {
 
 
     @Transactional
-    public void register(User user){
+    public void register(User user){ //TODO: Сделать возвращаемое значение User, передавать DTO
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
