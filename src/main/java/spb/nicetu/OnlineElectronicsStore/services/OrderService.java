@@ -2,10 +2,15 @@ package spb.nicetu.OnlineElectronicsStore.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsRequestDTO;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
+import spb.nicetu.OnlineElectronicsStore.mappers.OrderMapper;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
 import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
+import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.OrdersRepository;
 import spb.nicetu.OnlineElectronicsStore.util.exceptions.OrderNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.util.exceptions.ProductNotAvailableException;
 import spb.nicetu.OnlineElectronicsStore.util.exceptions.ProductNotFoundException;
 
 import javax.transaction.Transactional;
@@ -37,16 +42,38 @@ public class OrderService {
     }
 
     // Создает заказ
-    //TODO: Переписать Order на OrderRequestDTO
     @Transactional
-    public void createOrder(Order order) {
+    public void createOrder(OrderRequestDTO orderRequestDTO, User user) {
+        Order order = OrderMapper.MAPPER.toOrder(orderRequestDTO);
+        order.setOwner(user);
+
+        // Проверка наличия продуктов из заказа на складе
+        checkProductAvailability(orderRequestDTO);
         // Заполняем детали заказа данными и продуктами
         enrichOrder(order);
 
         ordersRepository.save(order);
     }
 
+    private void checkProductAvailability(OrderRequestDTO orderRequestDTO) {
+        List<OrderDetailsRequestDTO> list = orderRequestDTO.getOrderDetails();
+        for (OrderDetailsRequestDTO orderDetails : list){
+            int product_id = orderDetails.getProduct_id();
+            int quantity = orderDetails.getQuantity();
+
+            if (productService.isAvailableInStock(product_id, quantity)) {
+                // Продукт доступен на складе, можно обрабатывать заказ
+                productService.reduceProductQuantity(product_id,quantity); // Уменьшаем количество продукта на складе
+            } else {
+                // Продукт недоступен на складе
+                throw new ProductNotAvailableException("Product is not available in stock"); //TODO: Сдлать обработчик
+            }
+        }
+    }
+
     private void enrichOrder(Order order) {
+        // Извлекаем список OrderDetails из заказа и каждый элмент OrderDetails сохраняем в БД
+        // с помощью orderDetailsService.createOrderDetails
         List<OrderDetails> orderDetailsList = order.getOrderDetails().stream()
                 .map(orderDetails -> orderDetailsService.createOrderDetails(
                         orderDetails.getQuantity(), order, orderDetails.getProduct()
