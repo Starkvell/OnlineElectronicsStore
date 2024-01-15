@@ -1,6 +1,9 @@
 package spb.nicetu.OnlineElectronicsStore.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import spb.nicetu.OnlineElectronicsStore.util.exceptions.CartNotFoundException;
 
 @RestController
 @RequestMapping("/api/cart")
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Carts")
 public class CartsController {
     private final CartsService cartService;
     private final ProductService productService;
@@ -42,6 +47,9 @@ public class CartsController {
      * @return ResponseEntity с HTTP Status Code 201 CREATED при успешном добавлении продукта в корзину
      *  или ошибку с HTTP Status Code 400.
      */
+    @Operation(
+            summary = "Adds a product to the user's cart"
+    )
     @PostMapping("/add-product")
     public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserDetails userDetails,
                                               @RequestParam("productId") int productId,
@@ -67,6 +75,10 @@ public class CartsController {
      * @return ResponseEntity с HTTP Status Code 200 OK и DTO корзины при успешном запросе,
      *  *         или ответ с ошибкой NOT FOUND и сообщением, если у пользователя нет корзины.
      */
+    @Operation(
+            summary = "Gets information about the user's current cart",
+            description = "This can only be done by the logged in user."
+    )
     @GetMapping("/current")
     public ResponseEntity<?> getCart(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByEmail(userDetails.getUsername());
@@ -81,6 +93,10 @@ public class CartsController {
         return new ResponseEntity<>(cartDTO, HttpStatus.OK);
     }
 
+    @Operation(
+            summary = "Creates a new cart for the current user",
+            description = "This can only be done by the logged in user."
+    )
     @PostMapping("/current")
     public ResponseEntity<?> createCart(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestBody CartRequestDTO cartRequestDTO){
@@ -95,6 +111,10 @@ public class CartsController {
         return new ResponseEntity<>(cartDTO, HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Deletes the cart for the current user",
+            description = "This can only be done by the logged in user."
+    )
     @DeleteMapping("current")
     public ResponseEntity<?> deleteCart(@AuthenticationPrincipal UserDetails userDetails){
         User user = userService.findByEmail(userDetails.getUsername());
@@ -106,6 +126,10 @@ public class CartsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @Operation(
+            summary = "Updates the cart for the current user",
+            description = "Updates the cart of the authenticated user."
+    )
     @PatchMapping("/current")
     public ResponseEntity<?> updateCart(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestBody CartRequestDTO cartRequestDTO){

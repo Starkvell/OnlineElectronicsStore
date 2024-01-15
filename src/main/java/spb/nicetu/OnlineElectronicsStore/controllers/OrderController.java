@@ -1,5 +1,9 @@
 package spb.nicetu.OnlineElectronicsStore.controllers;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +25,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/orders")
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Orders")
 public class OrderController {
 
     private final OrderService orderService;
@@ -34,15 +40,21 @@ public class OrderController {
     }
 
     @GetMapping()   // TODO: для админки
+    @Hidden
     public List<OrderDTO> getOrders(){
         return orderService.findAll().stream().map(OrderMapper.MAPPER::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")  // TODO: для админки
+    @Hidden
     public OrderDTO getOrder(@PathVariable Integer id){
         return OrderMapper.MAPPER.convertToDTO(orderService.findOne(id));
     }
 
+    @Operation(
+            summary = "Get all orders for the authenticated user",
+            description = "Retrieves a list of all orders placed by the authenticated user."
+    )
     @GetMapping("/current")
     public List<OrderDTO> getOrders(@AuthenticationPrincipal UserDetails userDetails){
         User user = userService.findByEmail(userDetails.getUsername());
@@ -59,6 +71,10 @@ public class OrderController {
      * @param bindingResult Представляет результаты привязки в процессе валидации.
      * @return HTTP STATUS OK при успешном создании.
      */
+    @Operation(
+            summary = "Create a new order for the authenticated user",
+            description = "Creates a new order based on the provided request data."
+    )
     @PostMapping("/current")
     public ResponseEntity<?> createOrder(@AuthenticationPrincipal UserDetails userDetails,
                                          @RequestBody @Valid OrderRequestDTO orderRequestDTO,

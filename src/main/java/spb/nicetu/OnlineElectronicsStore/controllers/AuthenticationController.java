@@ -1,5 +1,7 @@
 package spb.nicetu.OnlineElectronicsStore.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication")
 public class AuthenticationController {
     private final JWTUtil jwtUtil;
 
@@ -44,6 +47,9 @@ public class AuthenticationController {
      * ответом с ошибкой Bad Request с сообщениями о валидации, если входные данные недопустимы.
      *
      */
+    @Operation(
+            summary = "Registers a new user"
+    )
     @PostMapping("/registration")
     public ResponseEntity<?> performRegistration(@RequestBody @Valid UserDTO userDTO,
                                                    BindingResult bindingResult) {
@@ -66,6 +72,9 @@ public class AuthenticationController {
      * @return ResponseEntity с JWT-токеном при успешной аутентификации или
      *         ответом с ошибкой Unauthorized в случае неверных учетных данных.
      */
+    @Operation(
+            summary = "Logs user into the system"
+    )
     @PostMapping("/login")
     public ResponseEntity<?> performLogin(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
         UsernamePasswordAuthenticationToken authInputToken =

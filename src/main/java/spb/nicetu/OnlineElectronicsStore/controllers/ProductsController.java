@@ -1,5 +1,7 @@
 package spb.nicetu.OnlineElectronicsStore.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import spb.nicetu.OnlineElectronicsStore.dto.ProductDTO;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
+@Tag(name = "Products")
 public class ProductsController {
 
     private final ProductService productService;
@@ -24,6 +27,10 @@ public class ProductsController {
      * Получает список всех продуктов.
      * @return Список DTO продуктов.
      */
+    @Operation(
+            summary = "Get all products",
+            description = "Retrieves a list of all products available."
+    )
     @GetMapping
     public List<ProductDTO> getProducts() {
         return productService.findAll().stream().map(ProductMapper.MAPPER::toProductDTO).collect(Collectors.toList());
@@ -35,6 +42,10 @@ public class ProductsController {
      * @param id Id продукта.
      * @return DTO продукта.
      */
+    @Operation(
+            summary = "Get a product by ID",
+            description = "Retrieves a specific product by its ID."
+    )
     @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable Integer id){
         return ProductMapper.MAPPER.toProductDTO(productService.findOne(id));

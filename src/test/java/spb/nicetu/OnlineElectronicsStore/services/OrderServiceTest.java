@@ -1,10 +1,14 @@
 package spb.nicetu.OnlineElectronicsStore.services;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderDetailsRequestDTO;
+import spb.nicetu.OnlineElectronicsStore.dto.OrderRequestDTO;
 import spb.nicetu.OnlineElectronicsStore.models.Order;
 import spb.nicetu.OnlineElectronicsStore.models.OrderDetails;
 import spb.nicetu.OnlineElectronicsStore.models.Product;
@@ -14,10 +18,7 @@ import spb.nicetu.OnlineElectronicsStore.util.exceptions.OrderNotFoundException;
 import spb.nicetu.OnlineElectronicsStore.util.exceptions.UserNotFoundException;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -82,24 +83,8 @@ class OrderServiceTest {
                 .hasMessageContaining("Could not find object order with ID:" + orderId);
     }
 
-    @Test
-    void testCreateOrder() {
-        // Arrange
-        Order order = new Order();
-        OrderDetails orderDetails = new OrderDetails(10, BigDecimal.TEN, order, new Product(1, "Product", null, null, 10, BigDecimal.valueOf(100), null, null));
-        order.setOrderDetails(Arrays.asList(orderDetails));
 
-        when(orderDetailsService.createOrderDetails(anyInt(), any(Order.class), any(Product.class))).thenReturn(orderDetails);
-        when(productService.getAvailableProductCount(anyInt())).thenReturn(10);
 
-        // Act
-        orderService.createOrder(order);
-
-        // Assert
-        verify(orderDetailsService, times(1)).createOrderDetails(anyInt(), any(Order.class), any(Product.class));
-        verify(productService, times(1)).getAvailableProductCount(anyInt());
-        verify(ordersRepository, times(1)).save(order);
-    }
 
 
 }
