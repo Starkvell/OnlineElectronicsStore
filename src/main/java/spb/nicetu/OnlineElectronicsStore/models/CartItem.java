@@ -34,13 +34,13 @@ public class CartItem {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         CartItem cartItem = (CartItem) o;
-        return Objects.equals(id, cartItem.id);
+        return id == cartItem.id && quantity == cartItem.quantity && Objects.equals(product, cartItem.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id,product,quantity);
+        return Objects.hash(id, product, quantity);
     }
 }

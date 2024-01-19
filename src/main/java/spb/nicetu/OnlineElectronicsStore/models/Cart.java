@@ -53,9 +53,13 @@ public class Cart {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         Cart cart = (Cart) o;
-        return Objects.equals(id, cart.id);
+
+        if (id != cart.id) return false;
+        if (quantity != cart.quantity) return false;
+        return totalCost != null ? totalCost.equals(cart.totalCost) : cart.totalCost == null;
     }
 
     @Override

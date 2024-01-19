@@ -63,13 +63,13 @@ public class Order {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(id, order.id);
+        return id == order.id && Objects.equals(createdAt, order.createdAt) && Objects.equals(totalAmount, order.totalAmount) && Objects.equals(address, order.address) && Objects.equals(owner, order.owner) && Objects.equals(orderDetails, order.orderDetails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, createdAt, totalAmount, address, owner, orderDetails);
     }
 }

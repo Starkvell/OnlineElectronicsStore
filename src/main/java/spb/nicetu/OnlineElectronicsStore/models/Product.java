@@ -63,13 +63,13 @@ public class Product {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(id, product.id);
+        return id == product.id && stockQuantity == product.stockQuantity && Objects.equals(title, product.title) && Objects.equals(description, product.description) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(basePrice, product.basePrice) && Objects.equals(discountPrice, product.discountPrice) && Objects.equals(categories, product.categories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, title, description, imageUrl, stockQuantity, basePrice, discountPrice, categories);
     }
 }
