@@ -1,7 +1,5 @@
 package spb.nicetu.OnlineElectronicsStore.services;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,12 +8,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.UserRepository;
+import spb.nicetu.OnlineElectronicsStore.services.impl.AuthenticationServiceImpl;
 
 import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class AuthenticationServiceTest {
+class AuthenticationServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
@@ -24,7 +23,7 @@ class AuthenticationServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private AuthenticationService authenticationService;
+    private AuthenticationServiceImpl authenticationServiceImpl;
 
     @Test
     void testRegister_SuccessfulRegistration() {
@@ -33,7 +32,7 @@ class AuthenticationServiceTest {
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         // Act
-        authenticationService.register(user);
+        authenticationServiceImpl.register(user);
 
         // Assert
         verify(passwordEncoder, times(1)).encode("password");

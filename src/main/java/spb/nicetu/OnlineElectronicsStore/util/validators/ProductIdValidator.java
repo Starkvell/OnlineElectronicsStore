@@ -8,10 +8,10 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ProductIdValidator implements ConstraintValidator<ExistingProductId, Integer> {
 
-    private final ProductService productService;
+    private final ProductService productServiceImpl;
 
-    public ProductIdValidator(ProductService productService) {
-        this.productService = productService;
+    public ProductIdValidator(ProductService productServiceImpl) {
+        this.productServiceImpl = productServiceImpl;
     }
 
 
@@ -23,6 +23,6 @@ public class ProductIdValidator implements ConstraintValidator<ExistingProductId
 
     @Override
     public boolean isValid(Integer productId, ConstraintValidatorContext constraintValidatorContext) {
-        return productId != null && productService.existsById(productId);
+        return productId != null && productServiceImpl.existsById(productId);
     }
 }

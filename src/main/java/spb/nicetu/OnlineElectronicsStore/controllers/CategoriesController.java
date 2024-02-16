@@ -20,11 +20,11 @@ import java.util.stream.Collectors;
 @Tag(name = "Categories")
 public class CategoriesController {
 
-    private final CategoryService categoryService;
+    private final CategoryService categoryServiceImpl;
 
     @Autowired
-    public CategoriesController(CategoryService categoryService) {
-        this.categoryService = categoryService;
+    public CategoriesController(CategoryService categoryServiceImpl) {
+        this.categoryServiceImpl = categoryServiceImpl;
     }
 
     /**
@@ -37,7 +37,7 @@ public class CategoriesController {
     )
     @GetMapping()
     public List<CategoryDTO> getCategories(){
-        return categoryService.findAll().stream().map(CategoryMapper.MAPPER::toCategoryDTO).collect(Collectors.toList());
+        return categoryServiceImpl.findAll().stream().map(CategoryMapper.MAPPER::toCategoryDTO).collect(Collectors.toList());
     }
 
     /**
@@ -51,7 +51,7 @@ public class CategoriesController {
     )
     @GetMapping("/{id}")
     public CategoryDTO getCategory(@PathVariable Integer id){
-        Category one = categoryService.findOne(id);
+        Category one = categoryServiceImpl.findOne(id);
         return CategoryMapper.MAPPER.toCategoryDTO(one);
     }
 

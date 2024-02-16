@@ -1,7 +1,6 @@
 package spb.nicetu.OnlineElectronicsStore.services;
 
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import spb.nicetu.OnlineElectronicsStore.models.Category;
 import spb.nicetu.OnlineElectronicsStore.repositories.CategoriesRepository;
+import spb.nicetu.OnlineElectronicsStore.services.impl.CategoryServiceImpl;
 import spb.nicetu.OnlineElectronicsStore.util.exceptions.CategoryNotFoundException;
 
 import java.util.Arrays;
@@ -22,13 +22,13 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class CategoryServiceTest {
+class CategoryServiceImplTest {
 
     @Mock
     private CategoriesRepository categoriesRepository;
 
     @InjectMocks
-    private CategoryService categoryService;
+    private CategoryServiceImpl categoryServiceImpl;
 
 
     @Test
@@ -41,7 +41,7 @@ class CategoryServiceTest {
         when(categoriesRepository.findAll()).thenReturn(categories);
 
         // Act
-        List<Category> result = categoryService.findAll();
+        List<Category> result = categoryServiceImpl.findAll();
 
         // Assert
         assertThat(result).isEqualTo(categories);
@@ -55,7 +55,7 @@ class CategoryServiceTest {
         when(categoriesRepository.findById(1)).thenReturn(Optional.of(category));
 
         // Act
-        Category result = categoryService.findOne(1);
+        Category result = categoryServiceImpl.findOne(1);
 
         // Assert
         assertThat(result).isEqualTo(category);
@@ -65,7 +65,7 @@ class CategoryServiceTest {
     @Test
     void testFindOne_NonExistingCategory(){
         // Act and Assert
-        assertThatThrownBy(() -> categoryService.findOne(1))
+        assertThatThrownBy(() -> categoryServiceImpl.findOne(1))
                 .isInstanceOf(CategoryNotFoundException.class)
                 .hasMessage("Could not find object category with ID:1");
     }

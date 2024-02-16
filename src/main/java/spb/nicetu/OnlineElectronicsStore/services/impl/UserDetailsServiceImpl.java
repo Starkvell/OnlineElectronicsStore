@@ -1,4 +1,4 @@
-package spb.nicetu.OnlineElectronicsStore.services;
+package spb.nicetu.OnlineElectronicsStore.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.UserRepository;
 import spb.nicetu.OnlineElectronicsStore.security.UserDetailsImpl;
-
-import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

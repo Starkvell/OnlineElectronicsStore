@@ -29,14 +29,14 @@ import spb.nicetu.OnlineElectronicsStore.util.exceptions.CartNotFoundException;
 @Tag(name = "Carts")
 public class CartsController {
     private final CartsService cartService;
-    private final ProductService productService;
-    private final UserService userService;
+    private final ProductService productServiceImpl;
+    private final UserService userServiceImpl;
 
     @Autowired
-    public CartsController(CartsService cartService, ProductService productService, UserService userService) {
+    public CartsController(CartsService cartService, ProductService productServiceImpl, UserService userServiceImpl) {
         this.cartService = cartService;
-        this.productService = productService;
-        this.userService = userService;
+        this.productServiceImpl = productServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
     /**
@@ -54,9 +54,9 @@ public class CartsController {
     public ResponseEntity<?> addProductToCart(@AuthenticationPrincipal UserDetails userDetails,
                                               @RequestParam("productId") int productId,
                                               @RequestParam("quantity") int quantity) {
-        Product product = productService.findOne(productId);
+        Product product = productServiceImpl.findOne(productId);
         CartItem cartItem = new CartItem(product, quantity);
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
 
         if (user.getCart() == null) {
             user = cartService.createCart(user.getId());
@@ -81,7 +81,7 @@ public class CartsController {
     )
     @GetMapping("/current")
     public ResponseEntity<?> getCart(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
         Cart cart = user.getCart();
 
         if (cart == null) {
@@ -100,7 +100,7 @@ public class CartsController {
     @PostMapping("/current")
     public ResponseEntity<?> createCart(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestBody CartRequestDTO cartRequestDTO){
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
         if (user.getCart() != null){
             return new ResponseEntity<>("У пользователя уже есть корзина, сначала удалите старую",
                     HttpStatus.BAD_REQUEST);
@@ -117,7 +117,7 @@ public class CartsController {
     )
     @DeleteMapping("current")
     public ResponseEntity<?> deleteCart(@AuthenticationPrincipal UserDetails userDetails){
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
         if (user.getCart() == null){
             throw new CartNotFoundException("У пользователя нет корзины");
         }
@@ -133,7 +133,7 @@ public class CartsController {
     @PatchMapping("/current")
     public ResponseEntity<?> updateCart(@AuthenticationPrincipal UserDetails userDetails,
                                         @RequestBody CartRequestDTO cartRequestDTO){
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
         if (user.getCart() == null){
             throw new CartNotFoundException("У пользователя нет корзины");
         }

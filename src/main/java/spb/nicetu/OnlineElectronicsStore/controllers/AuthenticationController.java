@@ -15,7 +15,7 @@ import spb.nicetu.OnlineElectronicsStore.dto.UserDTO;
 import spb.nicetu.OnlineElectronicsStore.mappers.UserMapper;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.security.JWTUtil;
-import spb.nicetu.OnlineElectronicsStore.services.AuthenticationService;
+import spb.nicetu.OnlineElectronicsStore.services.impl.AuthenticationServiceImpl;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -27,13 +27,13 @@ import java.util.Map;
 public class AuthenticationController {
     private final JWTUtil jwtUtil;
 
-    private final AuthenticationService authenticationService;
+    private final AuthenticationServiceImpl authenticationServiceImpl;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public AuthenticationController(JWTUtil jwtUtil, AuthenticationService authenticationService, AuthenticationManager authenticationManager) {
+    public AuthenticationController(JWTUtil jwtUtil, AuthenticationServiceImpl authenticationServiceImpl, AuthenticationManager authenticationManager) {
         this.jwtUtil = jwtUtil;
-        this.authenticationService = authenticationService;
+        this.authenticationServiceImpl = authenticationServiceImpl;
         this.authenticationManager = authenticationManager;
     }
 
@@ -58,7 +58,7 @@ public class AuthenticationController {
         }
 
         User user = UserMapper.MAPPER.toUser(userDTO);
-        authenticationService.register(user); // TODO: Сделать возвращаемое значение User, передавать DTO
+        authenticationServiceImpl.register(user); // TODO: Сделать возвращаемое значение User, передавать DTO
 
         String token = jwtUtil.generateToken(user.getEmail());
         Map<String, String> response = Collections.singletonMap("jwt-token", token);

@@ -1,7 +1,5 @@
 package spb.nicetu.OnlineElectronicsStore.services;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +13,7 @@ import spb.nicetu.OnlineElectronicsStore.models.Product;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.CartsRepository;
 import spb.nicetu.OnlineElectronicsStore.repositories.UserRepository;
+import spb.nicetu.OnlineElectronicsStore.services.impl.CartsServiceImpl;
 
 
 import java.math.BigDecimal;
@@ -29,7 +28,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class CartsServiceTest {
+class CartsServiceImplTest {
     @Mock
     private CartsRepository cartsRepository;
     @Mock
@@ -39,7 +38,7 @@ class CartsServiceTest {
     @Mock
     private ProductService productService;
     @InjectMocks
-    private CartsService cartsService;
+    private CartsServiceImpl cartsServiceImpl;
 
 
 
@@ -52,7 +51,7 @@ class CartsServiceTest {
         when(cartsRepository.save(any(Cart.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
-        User result = cartsService.createCart(1);
+        User result = cartsServiceImpl.createCart(1);
 
         // Assert
         assertThat(result).isSameAs(user);
@@ -75,7 +74,7 @@ class CartsServiceTest {
         when(cartsRepository.save(any(Cart.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
-        cartsService.addToCart(cart, cartItem);
+        cartsServiceImpl.addToCart(cart, cartItem);
 
         // Assert
         verify(cartsRepository, times(1)).save(argThat(savedCart ->
@@ -101,7 +100,7 @@ class CartsServiceTest {
         Set<CartItem> expectedSet = new HashSet<>(Arrays.asList(new CartItem(product, 1)));
 
         // Act
-        Cart result = cartsService.createCart(cartRequestDTO, user);
+        Cart result = cartsServiceImpl.createCart(cartRequestDTO, user);
 
         // Assert
         assertThat(result).isNotNull();
@@ -136,7 +135,7 @@ class CartsServiceTest {
         when(cartsRepository.save(any(Cart.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
-        Cart result = cartsService.updateCart(cartRequestDTO, user);
+        Cart result = cartsServiceImpl.updateCart(cartRequestDTO, user);
 
         // Assert
         assertThat(result).isNotNull();

@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import spb.nicetu.OnlineElectronicsStore.models.User;
 import spb.nicetu.OnlineElectronicsStore.repositories.UserRepository;
-import spb.nicetu.OnlineElectronicsStore.util.exceptions.ProductNotFoundException;
+import spb.nicetu.OnlineElectronicsStore.services.impl.UserServiceImpl;
 import spb.nicetu.OnlineElectronicsStore.util.exceptions.UserNotFoundException;
 
 import java.util.Optional;
@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Test
     void testFindByEmail_Successful() {
@@ -33,7 +33,7 @@ class UserServiceTest {
         when(userRepository.findByEmail("email@mail.ru")).thenReturn(Optional.of(user));
 
         // Act
-        User result = userService.findByEmail("email@mail.ru");
+        User result = userServiceImpl.findByEmail("email@mail.ru");
 
         // Assert
         assertThat(result).isEqualTo(user);
@@ -46,7 +46,7 @@ class UserServiceTest {
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         // Act and Assert
-        assertThatThrownBy(() -> userService.findByEmail(email))
+        assertThatThrownBy(() -> userServiceImpl.findByEmail(email))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("User with email: '" + email + "' not found");
     }
@@ -59,7 +59,7 @@ class UserServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         // Act
-        User result = userService.findOne(1);
+        User result = userServiceImpl.findOne(1);
 
         // Assert
         assertThat(result).isEqualTo(user);
@@ -73,7 +73,7 @@ class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // Act and Assert
-        assertThatThrownBy(() -> userService.findOne(userId))
+        assertThatThrownBy(() -> userServiceImpl.findOne(userId))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessageContaining("Could not find object user with ID:" + userId);
     }

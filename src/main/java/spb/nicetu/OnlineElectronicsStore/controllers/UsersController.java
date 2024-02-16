@@ -20,11 +20,11 @@ import spb.nicetu.OnlineElectronicsStore.services.UserService;
 @Tag(name = "Users")
 public class UsersController {
 
-    private final UserService userService;
+    private final UserService userServiceImpl;
 
     @Autowired
-    public UsersController(UserService userService) {
-        this.userService = userService;
+    public UsersController(UserService userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
 

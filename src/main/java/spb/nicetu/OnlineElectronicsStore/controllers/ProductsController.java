@@ -16,11 +16,11 @@ import java.util.stream.Collectors;
 @Tag(name = "Products")
 public class ProductsController {
 
-    private final ProductService productService;
+    private final ProductService productServiceImpl;
 
     @Autowired
-    public ProductsController(ProductService productService) {
-        this.productService = productService;
+    public ProductsController(ProductService productServiceImpl) {
+        this.productServiceImpl = productServiceImpl;
     }
 
     /**
@@ -33,7 +33,7 @@ public class ProductsController {
     )
     @GetMapping
     public List<ProductDTO> getProducts() {
-        return productService.findAll().stream().map(ProductMapper.MAPPER::toProductDTO).collect(Collectors.toList());
+        return productServiceImpl.findAll().stream().map(ProductMapper.MAPPER::toProductDTO).collect(Collectors.toList());
     }
 
 
@@ -48,7 +48,7 @@ public class ProductsController {
     )
     @GetMapping("/{id}")
     public ProductDTO getProduct(@PathVariable Integer id){
-        return ProductMapper.MAPPER.toProductDTO(productService.findOne(id));
+        return ProductMapper.MAPPER.toProductDTO(productServiceImpl.findOne(id));
     }
 
 

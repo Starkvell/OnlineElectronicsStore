@@ -29,26 +29,26 @@ import java.util.stream.Collectors;
 @Tag(name = "Orders")
 public class OrderController {
 
-    private final OrderService orderService;
-    private final UserService userService;
+    private final OrderService orderServiceImpl;
+    private final UserService userServiceImpl;
 
 
     @Autowired
-    public OrderController(OrderService orderService, UserService userService) {
-        this.orderService = orderService;
-        this.userService = userService;
+    public OrderController(OrderService orderServiceImpl, UserService userServiceImpl) {
+        this.orderServiceImpl = orderServiceImpl;
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping()   // TODO: для админки
     @Hidden
     public List<OrderDTO> getOrders(){
-        return orderService.findAll().stream().map(OrderMapper.MAPPER::convertToDTO).collect(Collectors.toList());
+        return orderServiceImpl.findAll().stream().map(OrderMapper.MAPPER::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")  // TODO: для админки
     @Hidden
     public OrderDTO getOrder(@PathVariable Integer id){
-        return OrderMapper.MAPPER.convertToDTO(orderService.findOne(id));
+        return OrderMapper.MAPPER.convertToDTO(orderServiceImpl.findOne(id));
     }
 
     @Operation(
@@ -57,7 +57,7 @@ public class OrderController {
     )
     @GetMapping("/current")
     public List<OrderDTO> getOrders(@AuthenticationPrincipal UserDetails userDetails){
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
         List<Order> orderList = user.getOrderList();
 
         return orderList.stream().map(OrderMapper.MAPPER::convertToDTO).collect(Collectors.toList());
@@ -83,8 +83,8 @@ public class OrderController {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors()); //TODO: Handler
         }
 
-        User user = userService.findByEmail(userDetails.getUsername());
-        orderService.createOrder(orderRequestDTO,user);
+        User user = userServiceImpl.findByEmail(userDetails.getUsername());
+        orderServiceImpl.createOrder(orderRequestDTO,user);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

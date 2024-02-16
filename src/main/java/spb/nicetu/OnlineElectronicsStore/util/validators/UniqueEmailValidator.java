@@ -10,11 +10,11 @@ import javax.validation.ConstraintValidatorContext;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
-    private final UserService userService;
+    private final UserService userServiceImpl;
 
     @Autowired
-    public UniqueEmailValidator(UserService userService) {
-        this.userService = userService;
+    public UniqueEmailValidator(UserService userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
         try {
-            userService.findByEmail(email);
+            userServiceImpl.findByEmail(email);
         } catch (UserNotFoundException e){
             return true;
         }
