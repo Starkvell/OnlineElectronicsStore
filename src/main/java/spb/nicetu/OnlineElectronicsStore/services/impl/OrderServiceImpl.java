@@ -53,15 +53,16 @@ public class OrderServiceImpl implements OrderService {
         Order order = OrderMapper.MAPPER.toOrder(orderRequestDTO);
         order.setOwner(user);
 
-        // Проверка наличия продуктов из заказа на складе
-        checkProductAvailability(orderRequestDTO);
+        // Уменьшение количества продуктов в заказе
+        reduceProductsQuantity(orderRequestDTO);
         // Заполняем детали заказа данными и продуктами
         enrichOrder(order);
 
         ordersRepository.save(order);
     }
 
-    private void checkProductAvailability(OrderRequestDTO orderRequestDTO) {
+    // Уменьшение количества продуктов в заказе
+    private void reduceProductsQuantity(OrderRequestDTO orderRequestDTO) {
         List<OrderDetailsRequestDTO> list = orderRequestDTO.getOrderDetails();
         for (OrderDetailsRequestDTO orderDetails : list) {
             int product_id = orderDetails.getProduct_id();

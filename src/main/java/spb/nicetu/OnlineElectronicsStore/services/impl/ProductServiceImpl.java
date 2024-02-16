@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductsRepository productsRepository;
 
@@ -22,11 +21,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public List<Product> findAll() {
         return productsRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Product findOne(Integer id) {
         return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
@@ -38,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
      * @return Текущее количество товаров
      */
     @Override
+    @Transactional
     public int getAvailableProductCount(int productId) {
         Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
@@ -54,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
      * @throws ProductNotFoundException если продукт не найден по указанному идентификатору
      */
     @Override
+    @Transactional
     public Product updateProductQuantity(int newQuantity, int productId) {
         // Получаем объект продукта из репозитория по идентификатору или выбрасываем исключение, если продукт не найден
         Product product = productsRepository.findById(productId)
@@ -65,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void reduceProductQuantity(int productId, int reduce) {
         Product product = productsRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
@@ -74,6 +78,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public boolean isAvailableInStock(int productId, int quantity) {
         Optional<Product> productOptional = productsRepository.findById(productId);
 
@@ -82,6 +87,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    @Transactional
     public boolean existsById(Integer productId) {
         return productsRepository.existsById(productId);
     }
